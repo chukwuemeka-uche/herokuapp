@@ -13,5 +13,7 @@ test("Login page test", async ({ page }) => {
     await page.locator(passwordField).fill("SuperSecretPassword!");
     await page.getByRole("button").click();
 
+    await expect(page.getByText('You logged into a secure area!')).toBeVisible();
+
     await page.waitForTimeout(5000)
 })
