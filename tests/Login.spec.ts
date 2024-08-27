@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 
-const textName = "Form Authentication";
+const menuLocator = "ul>li>a";
+const menuTitle = "Form Authentication";
 const usernameField = "#username";
 const passwordField = "#password";
 const logoutBtn = ".button";
@@ -8,7 +9,15 @@ const logoutBtn = ".button";
 test("Login page test", async ({ page }) => {
     await page.goto("https://the-internet.herokuapp.com/");
 
-    await page.getByText(textName).click();
+    const menus = await page.$$(menuLocator)
+    for (let menu of menus) {
+        const option = await menu.textContent()
+        if (typeof option === "string" && option === menuTitle) {
+            console.log(option)
+            await menu.click()
+            break;
+        }
+    }
 
     await page.locator(usernameField).fill("tomsmith");
     await page.locator(passwordField).fill("SuperSecretPassword!");
