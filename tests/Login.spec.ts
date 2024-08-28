@@ -6,7 +6,11 @@ const usernameField = "#username";
 const passwordField = "#password";
 const logoutBtn = ".button";
 
-test("Login page test", async ({ page }) => {
+let page;
+
+test.beforeEach(async ({ browser }) => {
+    page = await browser.newPage();
+
     await page.goto("https://the-internet.herokuapp.com/");
 
     const menus = await page.$$(menuLocator)
@@ -18,7 +22,9 @@ test("Login page test", async ({ page }) => {
             break;
         }
     }
+});
 
+test("Login page test", async () => {
     await page.locator(usernameField).fill("tomsmith");
     await page.locator(passwordField).fill("SuperSecretPassword!");
     await page.getByRole("button").click();
